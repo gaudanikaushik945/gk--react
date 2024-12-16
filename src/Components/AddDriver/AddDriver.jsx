@@ -47,7 +47,7 @@ const AddDriver = ({ setDrivers }) => {
         };
 
         try {
-          const response = await fetch("http://localhost:8000/api/register/driver", {
+          const response = await fetch("https://avani-backend.vercel.app/api/register/driver", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
