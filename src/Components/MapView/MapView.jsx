@@ -1,121 +1,10 @@
-// import React, { useContext, useEffect, useState, useCallback } from "react";
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import "leaflet/dist/leaflet.css";
-// import _ from "lodash";
-// import L from "leaflet";
-// import { AuthContext } from "../context/contex";
-// import { useMap } from "react-leaflet";
-
-// // FlyToLocation component to update the map view on location change
-// const FlyToLocation = ({ location }) => {
-//   const map = useMap();
-//   useEffect(() => {
-//     if (location) {
-//       map.flyTo([location.lat, location.lon], map.getZoom());
-//     }
-//   }, [location, map]);
-
-//   return null;
-// };
-
-// // Custom icon for markers
-// const customIcon = new L.Icon({
-//   iconUrl: "https://cdn-icons-png.flaticon.com/512/61/61168.png",
-//   iconSize: [25, 41],
-//   iconAnchor: [12, 41],
-//   popupAnchor: [1, -34],
-// });
-
-// const MapView = () => {
-//   const { setAddDriver } = useContext(AuthContext);
-//   const [driverDetails, setDriverDetails] = useState([]); // To store driver data
-//   const [userLocation, setUserLocation] = useState(null); // Store the user's location
-//   const [locationHistory, setLocationHistory] = useState([]);
-//   const [previousUserLocation, setPreviousUserLocation] = useState(null); // Store the previous user location
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-
-//   // Fetch driver data from the API
-//   const fetchDriverData = async () => {
-//     setLoading(true);
-//     try {
-//       const response = await fetch("http://localhost:8000/api/all/driver");
-//       if (!response.ok) {
-//         throw new Error("Failed to fetch driver data");
-//       }
-//       const data = await response.json();
-//       setDriverDetails(data.data); // Set the fetched driver data
-//     } catch (err) {
-//       setError("Failed to fetch driver data");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Throttle location updates to avoid frequent updates
-//   const updateUserLocation = async (lat, lon) => {
-//     // Logic for updating user location if needed (e.g., API call to backend)
-//   };
-
-//   const updateUserLocationThrottled = useCallback(
-//     _.throttle(updateUserLocation, 10000), // Throttle updates to every 10 seconds
-//     []
-//   );
-
-//   const handleGeolocationError = (error) => {
-//     if (error.code === error.PERMISSION_DENIED) {
-//       setError("Permission to access location was denied.");
-//     } else if (error.code === error.POSITION_UNAVAILABLE) {
-//       setError("Location information is unavailable.");
-//     } else if (error.code === error.TIMEOUT) {
-//       setError("Geolocation request timed out.");
-//     } else {
-//       setError("An unknown error occurred while fetching the location.");
-//     }
-//   };
-
-
-
-//   // Log user and driver locations every 2 seconds
-//   useEffect(() => {
-//     const intervalId = setInterval(() => {
-//       // Log the user's location
-//       if (userLocation) {
-//         console.log(`User Location: [Lat: ${userLocation.lat}, Lon: ${userLocation.lon}]`);
-//       }
-
-//       // Log all driver locations
-//       driverDetails.forEach((driver) => {
-//         if (driver.location?.lat && driver.location?.lon) {
-//           console.log(`${driver.driverName}'s Location: [Lat: ${driver.location.lat}, Lon: ${driver.location.lon}]`);
-//         }
-//       });
-//     }, 1000); // Log every 2 seconds
-
-//     return () => clearInterval(intervalId); // Cleanup on unmount
-//   }, [userLocation, driverDetails]); // Depend on `userLocation` and `driverDetails`
-
-//   // Fetch driver data once the component mounts
-//   useEffect(() => {
-//     fetchDriverData();
-//   }, []);
-
-
-
-
-
-
-
-
-
-
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import _ from "lodash";
 import L from "leaflet";
+import { AuthContext } from "../context/contex";
 import { useMap } from "react-leaflet";
-import { AuthContext } from "../context/UserContext";
 import { io } from "socket.io-client";
 
 // Connect to socket
@@ -253,6 +142,10 @@ const MapView = () => {
   useEffect(() => {
     fetchDriverData();
   }, []);
+
+
+
+
 
   return (
     <div className="p-0" style={{ height: "100vh", width: "100vw" }}>
